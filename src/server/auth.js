@@ -53,6 +53,28 @@ var getUser = function(req, res, next) {
     return req.session.userInfo
 }
 
+var changePassword = function(req, res, next) {
+    var userInfo = req.session.userInfo
+    if (userInfo) {
+        var user = require('../db/models/user')
+        return user.findOne({
+            where: {
+                account: userInfo.name,
+                password: req.body.password
+            }
+        }).then((result) => {
+            if (result == null) {
+                return Promise.reject("account or password incorrect")
+            } else {
+                result.password = req.body.newPassword
+                return result.save()
+            }
+        })
+    } else {
+        return Promise.reject("not login")
+    }
+}
+
 
 
 
@@ -66,6 +88,8 @@ module.exports = (req, res, next) => {
                 return logout(req, res, next)
             case "getUser":
                 return getUser(req, res, next)
+            case "changePassword":
+                return changePassword(req, res, next)
         }
     }).then(function(result) {
         res.send(result)

@@ -1,23 +1,35 @@
 export function configRouter(router) {
     router.map({
         '/': {
-            component: require('../components/Master.vue'),
+            component: function(resolve) {
+                require(['../components/Master.vue'], resolve)
+            },
             subRoutes: {}
         },
         '/admin': {
-            component: require('../components/Master.vue'),
+            component: function(resolve) {
+                require(['../components/Master.vue'], resolve)
+            },
             subRoutes: {
                 'RBACManagement': {
-                    component: require('../components/RBACManagement.vue'),
+                    component: function(resolve) {
+                        require(['../components/RBACManagement.vue'], resolve)
+                    },
                     subRoutes: {
                         'User': {
-                            component: require('../components/UserSetting.vue')
+                            component: function(resolve) {
+                                require(['../components/UserSetting.vue'], resolve)
+                            }
                         },
                         'Role': {
-                            component: require('../components/RoleSetting.vue')
+                            component: function(resolve) {
+                                require(['../components/RoleSetting.vue'], resolve)
+                            }
                         },
                         'Permission': {
-                            component: require('../components/PermissionSetting.vue')
+                            component: function(resolve) {
+                                require(['../components/PermissionSetting.vue'], resolve)
+                            }
                         }
                     }
                 }

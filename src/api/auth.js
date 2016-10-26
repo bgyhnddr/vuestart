@@ -10,5 +10,8 @@ export default {
     },
     getUser() {
         return httpRequest.get(path + 'getUser')
+    },
+    changePassword(params) {
+        return httpRequest.post(path + 'changePassword', params)
     }
 }

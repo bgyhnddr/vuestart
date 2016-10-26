@@ -60,11 +60,13 @@
                 }
                 let returnText = "please login";
                 if (!this.loginInfo.account && !this.loginInfo.password) {
-                    returnText = "need account and password"
+                    returnText = "account and password require"
                 } else if (!this.loginInfo.account) {
-                    returnText = "account not exists"
+                    returnText = "account require"
                 } else if (!this.loginInfo.password) {
-                    returnText = "password incorrect"
+                    returnText = "password require"
+                } else {
+                    return "OK"
                 }
                 return returnText
             }
