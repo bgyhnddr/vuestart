@@ -1,5 +1,5 @@
 var getUsers = function(req, res, next) {
-    var user = require('../db/models/user')
+    var user = require('../../db/models/user')
 
     var filterKey = req.query.filterKey == undefined ? "" : req.query.filterKey
     var count = req.query.count == undefined ? 5 : parseInt(req.query.count)
@@ -39,7 +39,7 @@ var getUsers = function(req, res, next) {
 }
 
 var addUser = function(req, res, next) {
-    var user = require('../db/models/user')
+    var user = require('../../db/models/user')
     var account = req.body.account
     if (account) {
         return user.findOne({
@@ -68,7 +68,7 @@ var addUser = function(req, res, next) {
 }
 
 var resetPassword = function(req, res, next) {
-    var user = require('../db/models/user')
+    var user = require('../../db/models/user')
     var account = req.body.account
     if (account) {
         return user.findOne({
@@ -97,8 +97,8 @@ var resetPassword = function(req, res, next) {
 }
 
 var deleteUser = function(req, res, next) {
-    var user = require('../db/models/user')
-    var user_role = require('../db/models/user_role')
+    var user = require('../../db/models/user')
+    var user_role = require('../../db/models/user_role')
 
     var account = req.body.account
     if (account && account != "admin") {
@@ -120,7 +120,7 @@ var deleteUser = function(req, res, next) {
 }
 
 var getRoles = function(req, res, next) {
-    var role = require('../db/models/role')
+    var role = require('../../db/models/role')
 
     var filterKey = req.query.filterKey == undefined ? "" : req.query.filterKey
     var count = req.query.count == undefined ? 5 : parseInt(req.query.count)
@@ -177,9 +177,9 @@ var submitRole = function(req, res, next) {
     var code = req.body.code
     var name = req.body.name ? req.body.name : ""
     if (code) {
-        var role = require('../db/models/role')
-        var user_role = require('../db/models/user_role')
-        var role_permission = require('../db/models/role_permission')
+        var role = require('../../db/models/role')
+        var user_role = require('../../db/models/user_role')
+        var role_permission = require('../../db/models/role_permission')
         return role.upsert({
             code: code,
             name: name
@@ -210,9 +210,9 @@ var submitRole = function(req, res, next) {
 }
 
 var deleteRole = function(req, res, next) {
-    var role = require('../db/models/role')
-    var user_role = require('../db/models/user_role')
-    var role_permission = require('../db/models/role_permission')
+    var role = require('../../db/models/role')
+    var user_role = require('../../db/models/user_role')
+    var role_permission = require('../../db/models/role_permission')
     var code = req.body.code
     if (code && code != "admin") {
         return Promise.all([
@@ -238,7 +238,7 @@ var deleteRole = function(req, res, next) {
 }
 
 var getPermissions = function(req, res, next) {
-    var permission = require('../db/models/permission')
+    var permission = require('../../db/models/permission')
 
     var filterKey = req.query.filterKey == undefined ? "" : req.query.filterKey
     var count = req.query.count == undefined ? 5 : parseInt(req.query.count)
@@ -295,8 +295,8 @@ var submitPermission = function(req, res, next) {
     var code = req.body.code
     var name = req.body.name ? req.body.name : ""
     if (code) {
-        var permission = require('../db/models/permission')
-        var role_permission = require('../db/models/role_permission')
+        var permission = require('../../db/models/permission')
+        var role_permission = require('../../db/models/role_permission')
         return permission.upsert({
             code: code,
             name: name
@@ -318,8 +318,8 @@ var submitPermission = function(req, res, next) {
 }
 
 var deletePermission = function(req, res, next) {
-    var permission = require('../db/models/permission')
-    var role_permission = require('../db/models/role_permission')
+    var permission = require('../../db/models/permission')
+    var role_permission = require('../../db/models/role_permission')
     var code = req.body.code
     if (code && code != "admin") {
         return Promise.all([
@@ -340,8 +340,8 @@ var deletePermission = function(req, res, next) {
 }
 
 var getUserRoles = function(req, res, next) {
-    var user_role = require('../db/models/user_role')
-    var role = require('../db/models/role')
+    var user_role = require('../../db/models/user_role')
+    var role = require('../../db/models/role')
     user_role.belongsTo(role, {
         foreignKey: 'role_code',
         targetKey: 'code',
@@ -413,7 +413,7 @@ var submitUserRole = function(req, res, next) {
     var role_code = req.body.role_code ? req.body.role_code : ""
     var user_account = req.body.user_account
     if (role_code) {
-        var user_role = require('../db/models/user_role')
+        var user_role = require('../../db/models/user_role')
         if (id) {
             return user_role.update({
                 role_code: role_code
@@ -438,7 +438,7 @@ var submitUserRole = function(req, res, next) {
 }
 
 var deleteUserRole = function(req, res, next) {
-    var user_role = require('../db/models/user_role')
+    var user_role = require('../../db/models/user_role')
 
     var id = req.body.id
     if (id) {
@@ -455,9 +455,9 @@ var deleteUserRole = function(req, res, next) {
 }
 
 var getRolePermissions = function(req, res, next) {
-    var role_permission = require('../db/models/role_permission')
-    var role = require('../db/models/role')
-    var permission = require('../db/models/permission')
+    var role_permission = require('../../db/models/role_permission')
+    var role = require('../../db/models/role')
+    var permission = require('../../db/models/permission')
 
     role_permission.belongsTo(role, {
         foreignKey: 'role_code',
@@ -535,7 +535,7 @@ var submitRolePermission = function(req, res, next) {
     var permission_code = req.body.permission_code ? req.body.permission_code : ""
     var role_code = req.body.role_code
     if (permission_code) {
-        var role_permission = require('../db/models/role_permission')
+        var role_permission = require('../../db/models/role_permission')
         if (id) {
             return role_permission.update({
                 permission_code: permission_code
@@ -560,7 +560,7 @@ var submitRolePermission = function(req, res, next) {
 }
 
 var deleteRolePermission = function(req, res, next) {
-    var role_permission = require('../db/models/role_permission')
+    var role_permission = require('../../db/models/role_permission')
 
     var id = req.body.id
     if (id) {
