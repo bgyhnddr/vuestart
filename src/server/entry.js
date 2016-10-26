@@ -22,7 +22,7 @@ module.exports = (app) => {
         if (req.params.permission == "private") {
             var checkPermission = require('../permission/check-permission')
             checkPermission(req, res, next).then(function() {
-                require('./' + req.params.type)(req, res, next)
+                require('./private/' + req.params.type)(req, res, next)
             }, function(error) {
                 if (error == "not_login") {
                     res.status(404).send({
@@ -37,7 +37,7 @@ module.exports = (app) => {
                 }
             })
         } else if (req.params.permission == "public") {
-            require('./' + req.params.type)(req, res, next)
+            require('./public/' + req.params.type)(req, res, next)
         }
     })
 }
