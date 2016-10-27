@@ -2,22 +2,23 @@ var formidable = require('formidable')
 var util = require('util')
 var fs = require('fs')
 
-var exec = {
-    dealFile(fileInfo) {
-        var file = require('../../db/models/file')
-        var attachment = require('../../db/models/attachment')
-        return file.upsert({
-            hash: fileInfo.hash,
-            size: fileInfo.size,
-            path: "upload/files/" + fileInfo.hash,
-            type: fileInfo.type
-        }).then(() => {
-            return attachment.create({
-                file_hash: fileInfo.hash,
-                name: fileInfo.name
-            })
+
+var dealFile = function(fileInfo) {
+    var file = require('../../db/models/file')
+    var attachment = require('../../db/models/attachment')
+    return file.upsert({
+        hash: fileInfo.hash,
+        size: fileInfo.size,
+        path: "upload/files/" + fileInfo.hash,
+        type: fileInfo.type
+    }).then(() => {
+        return attachment.create({
+            file_hash: fileInfo.hash,
+            name: fileInfo.name
         })
-    },
+    })
+}
+var exec = {
     getAttachment(req, res, next) {
         var id = req.query.id
         if (id) {
