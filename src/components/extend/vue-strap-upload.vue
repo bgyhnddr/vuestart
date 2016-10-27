@@ -47,7 +47,7 @@
         },
         computed: {
             href() {
-                return "/service/private/view_quotation/getAttachment?id=" + this.fileId
+                return "/service/private/upload/getAttachment?id=" + this.fileId
             }
         },
         methods: {
