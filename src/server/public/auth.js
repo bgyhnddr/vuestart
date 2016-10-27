@@ -3,7 +3,7 @@ var exec = {
         var account = req.body.account
         var password = req.body.password
 
-        var user = require('../db/models/user')
+        var user = require('../../db/models/user')
 
         return user.findOne({
             attributes: ['account', 'password'],
@@ -17,8 +17,8 @@ var exec = {
                 if (result.password != password) {
                     return Promise.reject("password incorrect")
                 } else {
-                    var user_role = require('../db/models/user_role')
-                    var role_permission = require('../db/models/role_permission')
+                    var user_role = require('../../db/models/user_role')
+                    var role_permission = require('../../db/models/role_permission')
 
                     role_permission.belongsTo(user_role, {
                         foreignKey: 'role_code',
@@ -54,7 +54,7 @@ var exec = {
     changePassword(req, res, next) {
         var userInfo = req.session.userInfo
         if (userInfo) {
-            var user = require('../db/models/user')
+            var user = require('../../db/models/user')
             return user.findOne({
                 where: {
                     account: userInfo.name,
