@@ -19,25 +19,29 @@ module.exports = (app) => {
 
     app.use('/service/:permission/:type/:action', function(req, res, next) {
         console.log("request:" + req.originalUrl)
-        if (req.params.permission == "private") {
-            var checkPermission = require('../permission/check-permission')
-            checkPermission(req, res, next).then(function() {
-                require('./private/' + req.params.type)(req, res, next)
-            }, function(error) {
-                if (error == "not_login") {
-                    res.status(404).send({
-                        "code": "not_login",
-                        "msg": 'not login'
-                    })
-                } else if (error == "no_authorization") {
-                    res.status(404).send({
-                        "code": "no_authorization",
-                        "msg": 'no authorization'
-                    })
-                }
-            })
-        } else if (req.params.permission == "public") {
-            require('./public/' + req.params.type)(req, res, next)
+        try {
+            if (req.params.permission == "private") {
+                var checkPermission = require('../permission/check-permission')
+                checkPermission(req, res, next).then(function() {
+                    require('./private/' + req.params.type)(req, res, next)
+                }, function(error) {
+                    if (error == "not_login") {
+                        res.status(404).send({
+                            "code": "not_login",
+                            "msg": 'not login'
+                        })
+                    } else if (error == "no_authorization") {
+                        res.status(404).send({
+                            "code": "no_authorization",
+                            "msg": 'no authorization'
+                        })
+                    }
+                })
+            } else if (req.params.permission == "public") {
+                require('./public/' + req.params.type)(req, res, next)
+            }
+        } catch (e) {
+            res.status(500).send(e.toString())
         }
     })
 }

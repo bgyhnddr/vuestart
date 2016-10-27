@@ -566,15 +566,11 @@ var exec = {
 module.exports = (req, res, next) => {
     var action = req.params.action
     Promise.resolve(action).then(function(result) {
-        try {
-            return exec[result](req, res, next)
-        } catch (e) {
-            console.log(e)
-            res.send(e)
-        }
+        return exec[result](req, res, next)
     }).then(function(result) {
         res.send(result)
     }).catch(function(error) {
+        console.log(error)
         res.status(500).send(error.toString())
     })
 
