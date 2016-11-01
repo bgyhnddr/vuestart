@@ -1,7 +1,7 @@
 var express = require('express')
 var config = require('../config')
 
-var serverEntry = require('../src/server/entry')
+var serverEntry = require('../server/entry')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
